@@ -26,7 +26,9 @@ jobs:
         if: always()
         with:
           name: test-results
-          path: ./test-results
+          path: |
+            test-results/junit-report.xml
+            test-results/junit-report.json
           retention-days: 5
   hello:
     needs: test
