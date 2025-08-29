@@ -20,16 +20,14 @@ jobs:
       - name: Install dependencies
         run: npm install
       - name: Run tests
-        run: npm test
-      - name: Test result
-        uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: test-results
-          path: |
-            test-results/junit-report.xml
-            test-results/junit-report.json
-          retention-days: 5
+        run: npx vitest run --reporter=json --outputFile=vitest-result.json
+      - name: Generate summary
+        run: |
+          echo "## :tubo_de_ensaio: Test Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Status | Test | Duration (ms) |" >> $GITHUB_STEP_SUMMARY
+          echo "|--------|------|---------------|" >> $GITHUB_STEP_SUMMARY
+          cat vitest-result.json | jq -r '.tests[] | "| " + (if .result == "pass" then ":marca_de_verificação_branca: Pass" else ":x_vermelho: Fail" end) + " | " + .name + " | " + (.duration|tostring) + " |"' >> $GITHUB_STEP_SUMMARY
   hello:
     needs: test
     runs-on: ubuntu-latest
