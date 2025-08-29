@@ -15,4 +15,8 @@ describe("sum", () => {
   test("sum letters", () => {
     expect(sum("a", "b")).toBe("ab");
   });
+
+   test("sum letters", () => {
+    expect(sum("a", "b")).toBe("2");
+  });
 });
