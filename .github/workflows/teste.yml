@@ -22,12 +22,12 @@ jobs:
         run: npx vitest run --reporter=json --outputFile=vitest-result.json
       - name: Generate summary
         run: |
-          echo "## :tubo_de_ensaio: Test Results" >> $GITHUB_STEP_SUMMARY
+          echo "## 🧪: Test Results" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "| Status | Test | Duration (ms) |" >> $GITHUB_STEP_SUMMARY
           echo "|--------|------|---------------|" >> $GITHUB_STEP_SUMMARY
           jq -r '.testResults[].assertionResults[]
-            | "| " + (if .status == "passed" then ":marca_de_verificação_branca: Pass" else ":x_vermelho: Fail" end)
+            | "| " + (if .status == "passed" then "✅: Pass" else "❌: Fail" end)
             + " | " + .title
             + " | " + (.duration|tostring) + " |"' vitest-result.json >> $GITHUB_STEP_SUMMARY
   hello:
